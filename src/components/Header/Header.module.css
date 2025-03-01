@@ -1,0 +1,10 @@
+.header {
+  padding: 15px;
+}
+
+.headerList {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}

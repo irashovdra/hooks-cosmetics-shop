@@ -1,14 +1,39 @@
 import "./App.css";
-import { Perfume } from "./components/Perfume";
-import { PerfumeList } from "./components/PerfumesList";
+import { PerfumeList } from "./components/PerfumeList/PerfumesList";
+import { Header } from "./components/Header/Header";
+import { FavoritesList } from "./components/Favorites/Favorites";
 
+class App extends Component {
+  state = {
+    perfumes: [],
+    favorites: [],
+  };
 
-function App() {
-  return (
-    <div className="App">
-      <PerfumeList />
-    </div>
-  );
+  componentDidMount() {
+    getPerfumesAPI()
+      .then((data) => {
+        this.setState({ perfumes: data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  addToFavorites = (perfume) => {
+    this.setState((prevState) => ({
+      favorites: [...prevState.favorites, perfume],
+    }));
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <Header />
+        <FavoritesList favorites={this.state.favorites} />
+        <PerfumeList />
+      </div>
+    );
+  }
 }
 
 export default App;

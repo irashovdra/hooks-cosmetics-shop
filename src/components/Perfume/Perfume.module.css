@@ -1,0 +1,16 @@
+.perfume {
+  width: 250px;
+  height: 250px;
+  outline: 2px solid gray;
+  padding: 15px;
+}
+
+.perfume__photo {
+  width: 150px;
+  height: 150px;
+}
+
+.perfume__title {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+}

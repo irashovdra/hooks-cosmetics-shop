@@ -1,7 +1,9 @@
+import React, { Component } from "react";
 import "./App.css";
 import { PerfumeList } from "./components/PerfumeList/PerfumesList";
 import { Header } from "./components/Header/Header";
 import { FavoritesList } from "./components/Favorites/Favorites";
+import { getPerfumesAPI } from "./services/getPerfumesAPI";
 
 class App extends Component {
   state = {
@@ -20,9 +22,14 @@ class App extends Component {
   }
 
   addToFavorites = (perfume) => {
-    this.setState((prevState) => ({
-      favorites: [...prevState.favorites, perfume],
-    }));
+    this.setState((prevState) => {
+      if (prevState.favorites.find((fav) => fav.id === perfume.id)) {
+        return null; // Avoid adding duplicates
+      }
+      return {
+        favorites: [...prevState.favorites, perfume],
+      };
+    });
   };
 
   render() {
@@ -30,7 +37,10 @@ class App extends Component {
       <div className="App">
         <Header />
         <FavoritesList favorites={this.state.favorites} />
-        <PerfumeList />
+        <PerfumeList
+          perfumes={this.state.perfumes}
+          onAddToFavorites={this.addToFavorites}
+        />
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import { getFavoritesAPI } from "../api/getFavoritesAPI";
 import { addPerfume } from "./addPerfume";
+import { Component } from "react";
 
 export class Favorites extends Component {
   state = {
@@ -10,11 +11,10 @@ export class Favorites extends Component {
     getFavoritesAPI().then((favorites) => this.setState({ favorites }));
   }
 
-  handleAdd = (event) => {
-    const newPerfume = addPerfume(event);
-    this.setState((prevState) => ({
-      favorites: [...prevState.favorites, newPerfume],
-    }));
+  handleAdd = async (event) => {
+    await addPerfume(event);
+    const updatedFavorites = await getFavoritesAPI();
+    this.setState({ favorites: updatedFavorites });
   };
 
   render() {

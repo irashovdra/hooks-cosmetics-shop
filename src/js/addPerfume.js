@@ -1,24 +1,23 @@
 import { addPerfumeAPI } from "../api/addPerfumeAPI";
 import { getFavoritesAPI } from "../api/getFavoritesAPI";
 
-export const addPerfume = (event) => {
-  const perfume = event.target.parentNode;
-  console.log(perfume);
+export const addPerfume = async (event) => {
+  const perfume = event.target.closest("li");
+
+  if (!perfume) return;
 
   const perfumeData = {
+    id: perfume.getAttribute("id"),
     title: perfume.querySelector("h2").textContent,
     price: perfume.querySelector("p").textContent,
-    photo: perfume.querySelector("img").getAttribute,
-    id: perfume.id,
+    photo: perfume.querySelector("img").getAttribute("src"),
   };
 
-  addPerfumeAPI(perfumeData).catch((error) => console.log(error));
-  getFavoritesAPI()
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  return perfumeData;
+  try {
+    await addPerfumeAPI(perfumeData);
+    const updatedFavorites = await getFavoritesAPI();
+    console.log(updatedFavorites);
+  } catch (error) {
+    console.log(error);
+  }
 };

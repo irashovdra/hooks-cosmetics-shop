@@ -3,7 +3,7 @@ import "./App.css";
 import { PerfumeList } from "./components/PerfumeList/PerfumesList";
 import { Header } from "./components/Header/Header";
 import { FavoritesList } from "./components/Favorites/Favorites";
-import { getPerfumesAPI } from "./services/getPerfumesAPI";
+import { getPerfumesAPI } from "./api/getPerfumesAPI";
 
 class App extends Component {
   state = {
@@ -21,16 +21,16 @@ class App extends Component {
       });
   }
 
-  addToFavorites = (perfume) => {
-    this.setState((prevState) => {
-      if (prevState.favorites.find((fav) => fav.id === perfume.id)) {
-        return null; // Avoid adding duplicates
-      }
-      return {
-        favorites: [...prevState.favorites, perfume],
-      };
-    });
-  };
+  // addToFavorites = (perfume) => {
+  //   this.setState((prevState) => {
+  //     if (prevState.favorites.find((fav) => fav.id === perfume.id)) {
+  //       return null;
+  //     }
+  //     return {
+  //       favorites: [...prevState.favorites, perfume],
+  //     };
+  //   });
+  // };
 
   render() {
     return (
@@ -39,7 +39,6 @@ class App extends Component {
         <FavoritesList favorites={this.state.favorites} />
         <PerfumeList
           perfumes={this.state.perfumes}
-          onAddToFavorites={this.addToFavorites}
         />
       </div>
     );

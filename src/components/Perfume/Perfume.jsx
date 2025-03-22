@@ -1,6 +1,7 @@
 import styles from "./Perfume.module.css";
+import { addPerfume } from "../../js/addPerfume";
 
-export const Perfume = ({ perfume, onAddToFavorites }) => {
+export const Perfume = ({ perfume }) => {
   return (
     <li className={styles.perfume}>
       <h2 className={styles.perfume__title}>{perfume.title}</h2>
@@ -10,9 +11,7 @@ export const Perfume = ({ perfume, onAddToFavorites }) => {
         alt={perfume.title}
         className={styles.perfume__photo}
       />
-      <button onClick={() => onAddToFavorites(perfume)}>
-        Add To Favorites
-      </button>
+      <button onClick={addPerfume}>Add To Favorites</button>
     </li>
   );
 };

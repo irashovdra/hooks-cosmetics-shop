@@ -1,4 +1,4 @@
-import { addPerfumeAPI } from "../api/addPerfumeAPI";
+import { addPerfumeAPI } from "../api/addFavoriteAPI";
 import { getFavoritesAPI } from "../api/getFavoritesAPI";
 
 export const addPerfume = async (event) => {

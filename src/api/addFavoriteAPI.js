@@ -1,4 +1,4 @@
-export const addPerfumeAPI = async (post) => {
+export const addFavoriteAPI = async (post) => {
   const options = {
     method: "POST",
     body: JSON.stringify(post),

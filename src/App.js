@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import "./App.css";
 import { PerfumeList } from "./components/PerfumeList/PerfumesList";
 import { Header } from "./components/Header/Header";
-import { FavoritesList } from "./components/Favorites/Favorites";
+import { FavoritesList } from "./components/FavoritesList/FavoritesList";
 import { getPerfumesAPI } from "./api/getPerfumesAPI";
 import { getFavoritesAPI } from "./api/getFavoritesAPI";
-import { addPerfumeAPI } from "./api/addPerfumeAPI";
+import { addFavoriteAPI } from "./api/addFavoriteAPI";
 
 class App extends Component {
   state = {
     perfumes: [],
     favorites: [],
-    currentPage: "perfumes", // Controls which page to show
+    currentPage: "perfumes",
   };
 
   componentDidMount() {
@@ -30,7 +30,7 @@ class App extends Component {
 
   handleAddToFavorites = async (perfume) => {
     try {
-      await addPerfumeAPI(perfume);
+      await addFavoriteAPI(perfume);
       const updatedFavorites = await getFavoritesAPI();
       this.setState({ favorites: updatedFavorites });
     } catch (error) {

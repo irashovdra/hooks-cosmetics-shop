@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/cosmetics-shop/static/css/main.cf09243b.css",
+    "main.js": "/cosmetics-shop/static/js/main.e6ec80a3.js",
+    "index.html": "/cosmetics-shop/index.html",
+    "main.cf09243b.css.map": "/cosmetics-shop/static/css/main.cf09243b.css.map",
+    "main.e6ec80a3.js.map": "/cosmetics-shop/static/js/main.e6ec80a3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cf09243b.css",
+    "static/js/main.e6ec80a3.js"
+  ]
+}

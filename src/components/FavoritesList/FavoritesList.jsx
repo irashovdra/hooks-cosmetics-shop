@@ -18,7 +18,6 @@ export class FavoritesList extends Component {
     if (JSON.stringify(prevState.favorites) !== JSON.stringify(data)) {
       this.setState({ favorites: data });
     }
-    // ПОРІВНЯТИ ОТРИМАНИЙ СПИСОК ЗІ СТЕЙТОМ І ЯКЩО ВІН ВІДРІЗНЯЄТЬСЯ ТО ЗАПИСАТИ ЙОГО В СТЕЙТ
   }
 
   fetchFavorites = async () => {
@@ -41,26 +40,6 @@ export class FavoritesList extends Component {
       console.log(error);
     }
   };
-
-  // handleQuantityChange = async (event, id) => {
-  //   if (!event || !event.target) return;
-
-  //   const newQuantity = parseInt(event.target.value, 10);
-  //   if (isNaN(newQuantity) || newQuantity < 1) return;
-
-  //   try {
-  //     const updatedFavorites = this.state.favorites.map((fav) =>
-  //       fav.id === id ? { ...fav, quantity: newQuantity } : fav
-  //     );
-  //     this.setState({ favorites: updatedFavorites });
-
-  //     const updatedFavorite = updatedFavorites.find((fav) => fav.id === id);
-  //     await updateFavoriteAPI(id, updatedFavorite);
-  //     this.fetchFavorites();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   handleQuantityChange = (event, id) => {
     const newQuantity = parseInt(event.target.value, 10);

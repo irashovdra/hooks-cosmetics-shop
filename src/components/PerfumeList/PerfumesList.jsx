@@ -3,7 +3,7 @@ import { Perfume } from "../Perfume/Perfume.jsx";
 
 export const PerfumeList = ({ perfumes, onAddToFavorites }) => {
   return (
-    <ul>
+    <ul className={styles.perfumesList}>
       {perfumes.map((perfume) => (
         <Perfume
           key={perfume.id}

@@ -6,12 +6,14 @@ import { FavoritesList } from "./components/FavoritesList/FavoritesList";
 import { getPerfumesAPI } from "./api/getPerfumesAPI";
 import { getFavoritesAPI } from "./api/getFavoritesAPI";
 import { addFavoriteAPI } from "./api/addFavoriteAPI";
+import { Modal } from "./components/Modal/Modal";
 
 class App extends Component {
   state = {
     perfumes: [],
     favorites: [],
     currentPage: "perfumes",
+    isModalOpen: false,
   };
 
   componentDidMount() {
@@ -30,7 +32,8 @@ class App extends Component {
 
   handleAddToFavorites = async (perfume) => {
     try {
-      await addFavoriteAPI(perfume);
+      const updatedPerfume = { ...perfume, quantity: 1 };
+      await addFavoriteAPI(updatedPerfume);
       const updatedFavorites = await getFavoritesAPI();
       this.setState({ favorites: updatedFavorites });
     } catch (error) {
@@ -42,10 +45,21 @@ class App extends Component {
     this.setState({ currentPage: page });
   };
 
+  handleOpenModal = () => {
+    this.setState({ isModalOpen: true });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ isModalOpen: false });
+  };
+
   render() {
     return (
       <div className="App">
-        <Header onPageChange={this.handlePageChange} />
+        <Header
+          onPageChange={this.handlePageChange}
+          onOpenModal={this.handleOpenModal}
+        />
         {this.state.currentPage === "perfumes" ? (
           <PerfumeList
             perfumes={this.state.perfumes}
@@ -53,6 +67,12 @@ class App extends Component {
           />
         ) : (
           <FavoritesList favorites={this.state.favorites} />
+        )}
+        {this.state.isModalOpen && (
+          <Modal
+            favorites={this.state.favorites}
+            onClose={this.handleCloseModal}
+          />
         )}
       </div>
     );

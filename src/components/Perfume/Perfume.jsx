@@ -14,7 +14,9 @@ export const Perfume = ({ perfume, onAddToFavorites }) => {
         alt={perfume.title}
         className={styles.perfume__photo}
       />
-      <button onClick={handleAdd}>Add To Favorites</button>
+      <button className={styles.perfume__btn} onClick={handleAdd}>
+        Add To Basket
+      </button>
     </li>
   );
 };

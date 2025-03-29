@@ -11,6 +11,7 @@ export const addPerfume = async (event) => {
     title: perfume.querySelector("h2").textContent,
     price: perfume.querySelector("p").textContent,
     photo: perfume.querySelector("img").getAttribute("src"),
+    quantity: 1,
   };
 
   try {

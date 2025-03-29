@@ -5,6 +5,9 @@
   display: flex;
   gap: 16px;
   overflow-x: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .favoritesList li {
@@ -14,6 +17,10 @@
   padding: 16px;
   flex: 0 0 200px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .favoritesList li:hover {
@@ -24,6 +31,7 @@
 .perfume__title {
   font-size: 18px;
   margin-bottom: 8px;
+  height: 30px;
 }
 
 .perfume__price {
@@ -35,4 +43,26 @@
   width: 100%;
   height: auto;
   border-radius: 8px;
+}
+
+.delete__btn {
+  margin-top: 10px;
+}
+
+.favorites__label {
+  font-size: 15px;
+}
+
+.favorites__quantity {
+  width: 60px;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 5px;
+  border: 2px solid black;
+  outline: none;
+  margin-left: 4px;
+}
+
+.favorites__center {
+  margin-top: 10px;
 }

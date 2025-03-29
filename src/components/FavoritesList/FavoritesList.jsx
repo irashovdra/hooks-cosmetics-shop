@@ -1,8 +1,8 @@
 import styles from "./Favorites.module.css";
 import { Component } from "react";
-import { deleteFavorite } from "../../js/deleteFavorite";
 import { getFavoritesAPI } from "../../api/getFavoritesAPI";
 import { deleteFavoriteAPI } from "../../api/deleteFavoriteAPI";
+import { updateFavoriteAPI } from "../../api/updateFavoriteAPI";
 
 export class FavoritesList extends Component {
   state = {
@@ -13,16 +13,18 @@ export class FavoritesList extends Component {
     await this.fetchFavorites();
   }
 
-  async componentDidUpdate() {
-    this.fetchFavorites();
+  async componentDidUpdate(prevState) {
+    const data = await getFavoritesAPI();
+    if (JSON.stringify(prevState.favorites) !== JSON.stringify(data)) {
+      this.setState({ favorites: data });
+    }
     // ПОРІВНЯТИ ОТРИМАНИЙ СПИСОК ЗІ СТЕЙТОМ І ЯКЩО ВІН ВІДРІЗНЯЄТЬСЯ ТО ЗАПИСАТИ ЙОГО В СТЕЙТ
   }
 
   fetchFavorites = async () => {
     try {
       const data = await getFavoritesAPI();
-      // this.setState({ favorites: data });
-      this.setState((prevState) => ({
+      this.setState(() => ({
         favorites: data,
       }));
     } catch (error) {
@@ -40,9 +42,51 @@ export class FavoritesList extends Component {
     }
   };
 
+  // handleQuantityChange = async (event, id) => {
+  //   if (!event || !event.target) return;
+
+  //   const newQuantity = parseInt(event.target.value, 10);
+  //   if (isNaN(newQuantity) || newQuantity < 1) return;
+
+  //   try {
+  //     const updatedFavorites = this.state.favorites.map((fav) =>
+  //       fav.id === id ? { ...fav, quantity: newQuantity } : fav
+  //     );
+  //     this.setState({ favorites: updatedFavorites });
+
+  //     const updatedFavorite = updatedFavorites.find((fav) => fav.id === id);
+  //     await updateFavoriteAPI(id, updatedFavorite);
+  //     this.fetchFavorites();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  handleQuantityChange = (event, id) => {
+    const newQuantity = parseInt(event.target.value, 10);
+    if (isNaN(newQuantity) || newQuantity < 1) return;
+
+    this.setState((prevState) => ({
+      favorites: prevState.favorites.map((fav) =>
+        fav.id === id ? { ...fav, quantity: newQuantity } : fav
+      ),
+    }));
+  };
+
+  handleQuantityBlur = async (id) => {
+    const favorite = this.state.favorites.find((fav) => fav.id === id);
+    if (!favorite) return;
+
+    try {
+      await updateFavoriteAPI(id, favorite);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
     const { favorites } = this.state;
-    console.log(favorites);
+
     return (
       <ul className={styles.favoritesList}>
         {favorites.map((fav) => (
@@ -54,8 +98,22 @@ export class FavoritesList extends Component {
               alt={fav.title}
               className={styles.perfume__photo}
             />
-            <button data-id={fav.id} onClick={deleteFavorite}>
-              Delete Favorite
+            <div className={styles.favorites__center}>
+              <label className={styles.favorites__label}>Quantity:</label>
+              <input
+                className={styles.favorites__quantity}
+                type="number"
+                min={1}
+                value={fav.quantity || 1}
+                onChange={(event) => this.handleQuantityChange(event, fav.id)}
+              />
+            </div>
+            <button
+              className={styles.delete__btn}
+              data-id={fav.id}
+              onClick={this.handleDelete}
+            >
+              Delete Product
             </button>
           </li>
         ))}

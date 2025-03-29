@@ -1,8 +1,17 @@
 .perfume {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-basis: 250px;
   width: 250px;
   height: 300px;
   outline: 2px solid gray;
-  padding: 15px;
+  padding: 20px;
+}
+
+.perfume__title {
+  height: 30px;
 }
 
 .perfume__photo {

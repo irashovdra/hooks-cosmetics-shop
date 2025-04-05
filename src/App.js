@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import "./App.css";
 import { PerfumeList } from "./components/PerfumeList/PerfumesList";
 import { Header } from "./components/Header/Header";
@@ -8,75 +8,65 @@ import { getFavoritesAPI } from "./api/getFavoritesAPI";
 import { addFavoriteAPI } from "./api/addFavoriteAPI";
 import { Modal } from "./components/Modal/Modal";
 
-class App extends Component {
-  state = {
-    perfumes: [],
-    favorites: [],
-    currentPage: "perfumes",
-    isModalOpen: false,
-  };
+function App() {
+  const [perfumes, setPerfumes] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [currentPage, setCurrentPage] = useState("perfumes");
+  const [showModal, setShowModal] = useState(false);
+  const [email, setEmail] = useState("");
 
-  componentDidMount() {
-    getPerfumesAPI()
-      .then((data) => {
-        this.setState({ perfumes: data });
-      })
-      .catch((error) => console.log(error));
+  useEffect(() => {
+    getPerfumesAPI().then(setPerfumes).catch(console.log);
+    getFavoritesAPI().then(setFavorites).catch(console.log);
+  }, []);
 
-    getFavoritesAPI()
-      .then((data) => {
-        this.setState({ favorites: data });
-      })
-      .catch((error) => console.log(error));
-  }
-
-  handleAddToFavorites = async (perfume) => {
+  const handleAddToFavorites = async (perfume) => {
     try {
-      const updatedPerfume = { ...perfume, quantity: 1 };
-      await addFavoriteAPI(updatedPerfume);
+      await addFavoriteAPI(perfume);
       const updatedFavorites = await getFavoritesAPI();
-      this.setState({ favorites: updatedFavorites });
+      setFavorites(updatedFavorites);
     } catch (error) {
       console.log(error);
     }
   };
 
-  handlePageChange = (page) => {
-    this.setState({ currentPage: page });
+  const handleOpenModal = () => {
+    setShowModal(true);
   };
 
-  handleOpenModal = () => {
-    this.setState({ isModalOpen: true });
+  const handleCloseModal = () => {
+    if (!email) {
+      alert("Enter your email before closing the form!");
+      return;
+    }
+    setShowModal(false);
   };
 
-  handleCloseModal = () => {
-    this.setState({ isModalOpen: false });
-  };
+  const totalQuantity = favorites.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  const totalPrice = favorites.reduce((sum, item) => sum + (item.quantity || 1) * parseFloat(item.price), 0);
 
-  render() {
-    return (
-      <div className="App">
-        <Header
-          onPageChange={this.handlePageChange}
-          onOpenModal={this.handleOpenModal}
+  return (
+    <div className="App">
+      <Header onPageChange={setCurrentPage} onOpenModal={handleOpenModal} />
+      {currentPage === "perfumes" ? (
+        <PerfumeList
+          perfumes={perfumes}
+          onAddToFavorites={handleAddToFavorites}
         />
-        {this.state.currentPage === "perfumes" ? (
-          <PerfumeList
-            perfumes={this.state.perfumes}
-            onAddToFavorites={this.handleAddToFavorites}
-          />
-        ) : (
-          <FavoritesList favorites={this.state.favorites} />
-        )}
-        {this.state.isModalOpen && (
-          <Modal
-            favorites={this.state.favorites}
-            onClose={this.handleCloseModal}
-          />
-        )}
-      </div>
-    );
-  }
+      ) : (
+        <FavoritesList />
+      )}
+      {showModal && (
+        <Modal
+          totalQuantity={totalQuantity}
+          totalPrice={totalPrice}
+          email={email}
+          setEmail={setEmail}
+          onClose={handleCloseModal}
+        />
+      )}
+    </div>
+  );
 }
 
 export default App;

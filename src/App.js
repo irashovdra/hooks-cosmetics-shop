@@ -42,8 +42,14 @@ function App() {
     setShowModal(false);
   };
 
-  const totalQuantity = favorites.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  const totalPrice = favorites.reduce((sum, item) => sum + (item.quantity || 1) * parseFloat(item.price), 0);
+  const totalQuantity = favorites.reduce(
+    (sum, item) => Number(sum) + (item.quantity || 1),
+    0
+  );
+  const totalPrice = favorites.reduce(
+    (sum, item) => sum + (item.quantity || 1) * parseFloat(item.price),
+    0
+  );
 
   return (
     <div className="App">

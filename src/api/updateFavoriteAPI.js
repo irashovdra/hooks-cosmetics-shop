@@ -8,7 +8,7 @@ export const updateFavoriteAPI = async (id, updatedData) => {
   };
 
   return await fetch(
-    `https://67bb7b18fbe0387ca13a2e9e.mockapi.io/favorites${id}`,
+    `https://67bb7b18fbe0387ca13a2e9e.mockapi.io/favorites/${id}`,
     options
   ).then((response) => response.json());
 };

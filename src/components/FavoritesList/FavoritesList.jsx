@@ -29,14 +29,21 @@ export const FavoritesList = () => {
     }
   };
 
-  const handleQuantityChange = async (id, newQuantity) => {
+  const handleQuantityChange = async (id, title, price, photo, newQuantity) => {
+    console.log(id, title, price, photo, newQuantity);
     const updatedFavorites = favorites.map((item) =>
       item.id === id ? { ...item, quantity: newQuantity } : item
     );
+
     setFavorites(updatedFavorites);
 
     try {
-      await updateFavoriteAPI(id, { quantity: newQuantity });
+      await updateFavoriteAPI(id, {
+        title: title,
+        price: price,
+        photo: photo,
+        quantity: String(newQuantity),
+      });
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +68,13 @@ export const FavoritesList = () => {
               min={1}
               value={fav.quantity || 1}
               onChange={(e) =>
-                handleQuantityChange(fav.id, Number(e.target.value))
+                handleQuantityChange(
+                  fav.id,
+                  fav.title,
+                  fav.price,
+                  fav.photo,
+                  Number(e.target.value)
+                )
               }
             />
           </div>
